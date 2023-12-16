@@ -1,0 +1,16 @@
+{
+  "name": "cputils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bld": "bash -c tsc ./src/app.ts -p ./tsconfig.json && tailwindcss -i ./src/tw.css -o ./src/style.css --minify",
+    "clean": "rm -fr ./src/*.js ./src/style.css"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.3.3"
+  }
+}
