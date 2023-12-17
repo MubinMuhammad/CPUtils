@@ -4,9 +4,8 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      'serif': ['Crimson Text'],
+      "serif": ["Roboto Slab"]
     }
   },
   plugins: [],
 }
-

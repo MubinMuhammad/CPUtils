@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "bld": "bash -c tsc ./src/app.ts -p ./tsconfig.json && tailwindcss -i ./src/tw.css -o ./src/style.css --minify",
-    "clean": "rm -fr ./src/*.js ./src/style.css"
+    "bld": "tailwindcss -i ./src/tw.css -o ./src/style.css && bash -c tsc ./src/app.ts -p ./tsconfig.json"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {

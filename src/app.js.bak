@@ -1,25 +1,12 @@
-function binary_search (arr: number[], x: number, start: number, end: number) {
-    if (start > end) return false;
-
-    let mid = Math.floor((start + end) / 2);
-
-    if (arr[mid] === x) return true;
-
-    if (arr[mid] > x)
-      return binary_search(arr, x, start, mid - 1);
-    else
-      return binary_search(arr, x, mid + 1, end);
-}
-
-async function show_user_interface(name: string) {
+async function show_user_interface(name) {
   try {
     let user_info_response = await fetch("https://codeforces.com/api/user.info?handles=" + name)
     let user_data = await user_info_response.json()
 
-    const excluded_chars: string[] = [',', '.', ';']
+    const excluded_chars = [',', '.', ';']
 
-    let profile_img: HTMLImageElement = document.getElementById('profile_img') as HTMLImageElement
-    let profile_str: HTMLElement = document.getElementById('profile_str') as HTMLElement
+    let profile_img = document.getElementById('profile_img')
+    let profile_str = document.getElementById('profile_str')
 
     for (let i = 0; i < excluded_chars.length; i++) {
       if (user_data.result[0].handle[user_data.result[0].handle.length - 1] == excluded_chars[i]) {
@@ -35,12 +22,12 @@ async function show_user_interface(name: string) {
   }
 }
 
-async function show_problem_interface(name: string) {
-  let problem_heading: HTMLElement = document.getElementById("problem_heading") as HTMLElement
-  let problem_tmp_heading: string = problem_heading.textContent as string
+async function show_problem_interface(name) {
+  let problem_heading = document.getElementById("problem_heading")
+  let problem_tmp_heading = problem_heading.textContent;
 
   try {
-    let problem_list: HTMLElement = document.getElementById("problem_list") as HTMLElement
+    let problem_list = document.getElementById("problem_list")
     problem_heading.textContent += " Loading..."
 
     let problem_info_response = await fetch("https://codeforces.com/api/problemset.problems?tags=implementation;constructive" + 
@@ -49,32 +36,37 @@ async function show_problem_interface(name: string) {
     let problem_data = await problem_info_response.json()
     let user_problem_data = await user_problem_response.json()
     
-    user_problem_data.result.sort((a: any, b: any) => {
+    user_problem_data.result.sort((a, b) => {
       return a.contestId - b.contestId
     })
     
-    let upd_validated_indices:number[] = []
-    let tmp: number = -1
+    const upd_validated_index = []
+    let tmp = -1
     
-    for (let i: number = 0; i < user_problem_data.result.length; i++) {
+    for (let i = 0; i < user_problem_data.result.length; i++) {
       if (tmp === -1) {
         if (user_problem_data.result[i].verdict === "OK") {
           tmp = i
-          upd_validated_indices.push(user_problem_data.result[i].contestId)
+          upd_validated_index.push(i)
         }
       }
       else {
         if (user_problem_data.result[i].contestId !== user_problem_data.result[tmp].contestId
             && user_problem_data.result[i].verdict === "OK") {
           tmp = i;
-          upd_validated_indices.push(user_problem_data.result[i].contestId)
+          upd_validated_index.push(i)
         }
       }
     }
 
+    console.log(user_problem_data)
+    for (let i = 0; i < upd_validated_index.length; i++) {
+      console.log(user_problem_data.result[upd_validated_index[i]].contestId)
+    }
+
     let problem_list_html = ""
     
-    for (let i: number = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       let problem_url = "https://codeforces.com/problemset/problem/" +
         problem_data.result.problems[i].contestId.toString() + "/" + problem_data.result.problems[i].index.toString()
       
@@ -93,7 +85,7 @@ async function show_problem_interface(name: string) {
 }
 
 function main() {
-  const name: string = "Mubin_Muhammad"
+  const name = "Mubin_Muhammad"
 
   show_user_interface(name)
   show_problem_interface(name)
